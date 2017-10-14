@@ -327,13 +327,26 @@
 
     <script type="text/javascript">
 
-    document.addEventListener("DOMContentLoaded", ready);
+        $(function() {
 
-    function ready() {
+        let cart_trigger = $('#cart-trigger'),
+            cart = $('#cart'),
+            shadow_layer = $('#shadow-layer');
 
-        console.log("Document is readt!");
-    }
+        cart_trigger.on('click', function () {
+            toggle_panel(cart, shadow_layer);
+        });
+    });
     
+    function toggle_panel(panel, background_layer) {
+            if (panel.hasClass('speed-in')) {
+                panel.removeClass('speed-in');
+                background_layer.removeClass('is-visible');
+            } else {
+                panel.addClass('speed-in');
+                background_layer.addClass('is-visible');
+            }
+     }
 
     </script>
 </body>
