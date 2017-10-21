@@ -83,7 +83,7 @@
 
       <div class="product-items">
         
-        <div class="item text-center">
+        <div class="item text-center" productId="1">
           <div class="single-member">
             <div class="overlay-hover">
               <img src="images/2.jpg" alt="" class="img-responsive productImg">
@@ -102,8 +102,8 @@
                 
               </div>
             </div>
-            <h3 class="poductPrice">Price: $0.0</h3>
-            <h5 class="productName">Lorem ipsum</h5>
+            <h3 class="poductPrice" poductPrice="99.99">Price: $99.99</h3>
+            <h5 class="productName" productName="Cool Cat">Cool Cat</h5>
           </div>
         </div>  <!-- item wrapper end -->
         
@@ -392,12 +392,28 @@
 
         document.querySelector('.add-to-cart').addEventListener('click', function(){
 
-            let productId = 1, 
+
+          console.log(this.parentNode.innerHTML);
+          console.log(this.parentNode.innerText);
+
+          console.log(this.parentNode);
+          // <div class="overlay-effect">
+          console.log(this.parentNode.parentNode);
+          // <div class="overlay-hover">
+          console.log(this.parentNode.parentNode.parentNode);
+          // <div class="single-member">
+          console.log(this.parentNode.parentNode.parentNode.parentNode);
+          // <div class="item text-center" productid="1">
+
+          console.log(this.parentNode.parentNode.parentNode.parentNode.getAttribute("productId"));
+
+          let productId = this.parentNode.parentNode.parentNode.parentNode.getAttribute("productId"), 
+
                 productName = "Test Product", 
                 productPrice = "99.99", 
                 productQuantity = 1;
 
-            document.querySelector('.cart-items').append(
+          document.querySelector('.cart-items').append(
             createCartItem(productId, productName, productPrice, productQuantity));
         });
 

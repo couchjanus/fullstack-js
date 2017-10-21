@@ -83,7 +83,7 @@
 
       <div class="product-items">
         
-        <div class="item text-center">
+        <div class="item text-center" productId="1">
           <div class="single-member">
             <div class="overlay-hover">
               <img src="images/2.jpg" alt="" class="img-responsive productImg">
@@ -102,11 +102,58 @@
                 
               </div>
             </div>
-            <h3 class="poductPrice">Price: $0.0</h3>
-            <h5 class="productName">Lorem ipsum</h5>
+            <h3 class="productPrice" productPrice="99.99">Price: $99.99</h3>
+            <h5 class="productName" productName="Cool Cat">Cool Cat</h5>
+          </div>
+        </div>  <!-- item wrapper end -->
+
+        <div class="item text-center" productId="2">
+          <div class="single-member">
+            <div class="overlay-hover">
+              <img src="images/3.jpg" alt="" class="img-responsive productImg">
+              <div class="overlay-effect">
+
+                <div class="icons">
+                  <a href="#"><i class="fa fa-star"></i></a>
+                  <a href="#"> <i class="fa fa-share"></i></a>
+                  <a href="#"> <i class="fa fa-search"></i></a>
+                </div>
+                
+                <a class="add-to-cart">Add to Cart</a>
+                <a class="show-detail" href="show1.html">Show Detail</a>
+                <p class="productDescription">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus dignissimos, maxime ea excepturi veritatis itaque. 
+                </p>
+                
+              </div>
+            </div>
+            <h3 class="productPrice" productPrice="66.66">Price: $66.66</h3>
+            <h5 class="productName" productName="Black Cat">Black Cat</h5>
           </div>
         </div>  <!-- item wrapper end -->
         
+        <div class="item text-center" productId="3">
+          <div class="single-member">
+            <div class="overlay-hover">
+              <img src="images/1.jpg" alt="" class="img-responsive productImg">
+              <div class="overlay-effect">
+
+                <div class="icons">
+                  <a href="#"><i class="fa fa-star"></i></a>
+                  <a href="#"> <i class="fa fa-share"></i></a>
+                  <a href="#"> <i class="fa fa-search"></i></a>
+                </div>
+                
+                <a class="add-to-cart">Add to Cart</a>
+                <a class="show-detail" href="show1.html">Show Detail</a>
+                <p class="productDescription">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus dignissimos, maxime ea excepturi veritatis itaque. 
+                </p>
+                
+              </div>
+            </div>
+            <h3 class="productPrice" productPrice="77.77">Price: $77.77</h3>
+            <h5 class="productName" productName="Red Cat">Red Cat</h5>
+          </div>
+        </div>  <!-- item wrapper end -->
         <div class="item text-center">
                     <div class="single-member">
                         <div class="overlay-hover">
@@ -293,23 +340,7 @@
     <div id="cart">
         <h2>Cart</h2>
         <ul class="cart-items">
-            <li>
-                <span class="qty">1x</span> <span class="product-name">Product Name</span>
-                <div class="price">$9.99</div>
-                <a href="#0" class="item-remove img-replace"></a>
-            </li>
 
-            <li>
-                <span class="qty">2x</span> Product Name
-                <div class="price">$19.98</div>
-                <a href="#" class="item-remove img-replace"></a>
-            </li>
-
-            <li>
-                <span class="qty">1x</span> Product Name
-                <div class="price">$9.99</div>
-                <a href="#" class="item-remove img-replace"></a>
-            </li>
         </ul> <!-- cd-cart-items -->
 
         <div class="cart-total">
@@ -390,29 +421,59 @@
             mega.classList.remove('active');
         });
 
-        document.querySelector('.add-to-cart').addEventListener('click', function(){
 
-            let productId = 1, 
-                productName = "Test Product", 
-                productPrice = "99.99", 
-                productQuantity = 1;
+  let addToCart = document.getElementsByClassName('add-to-cart');
 
-            document.querySelector('.cart-items').append(
+  for (let j=0; j<addToCart.length; j++) {
+
+    addToCart[j].addEventListener('click', function(e) {
+
+    let productName, productPrice;
+
+    let items = this.parentNode.parentNode.parentNode.children;
+          
+          for (let i = 0; i < items.length; i++) {
+            
+            if (items[i].hasAttribute('productPrice')){
+               productPrice = items[i].getAttribute('productPrice');
+               productName = items[i].nextElementSibling.getAttribute('productName');
+                }
+            }
+
+    let productId = this.parentNode.parentNode.parentNode.parentNode.getAttribute("productId"), 
+              productQuantity = 1;
+
+    if(document.getElementById("product_"+productId))
+      {
+        let new_price = parseFloat(document.getElementById("price_"+productId).innerHTML);
+        new_price +=(parseFloat(productQuantity)*parseFloat(productPrice));
+
+        document.querySelector("div#price_"+productId).innerHTML = new_price.toFixed(2);
+
+        let new_quantity = parseFloat(document.getElementById("qty_"+productId).innerHTML);
+        new_quantity +=parseFloat(productQuantity);
+        document.getElementById("qty_"+productId).innerHTML = new_quantity;
+      }else{
+        document.querySelector('.cart-items').append(
             createCartItem(productId, productName, productPrice, productQuantity));
-        });
+       };
+    });
+   }
 
       function createCartItem(productId, productName, productPrice, productQuantity){
 
           let li = document.createElement('li');
-          li.setAttribute('id', productId);
+          li.setAttribute('id', "product_"+productId);
           
           let span = document.createElement('span');
           span.setAttribute('class', "qty");
+          span.setAttribute('id',"qty_"+productId);
 
           let textNode = document.createTextNode(' '+productName);
 
           let div = document.createElement('div');
           div.setAttribute('class', "price");
+          div.setAttribute('id', "price_"+productId);
 
           let a = document.createElement('a');
           a.setAttribute('class', "item-remove img-replace");
