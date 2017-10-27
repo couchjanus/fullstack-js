@@ -53,17 +53,6 @@
                                 <img src="images/logo.png" alt="" class="img-responsive">
                         </a>
                  </div><!--Navbar header End-->
-                  <div class="navbar-header ">
-                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <a class="navbar-brand" href="#">
-                                <img src="images/logo.png" alt="" class="img-responsive">
-                        </a>
-                 </div><!--Navbar header End-->
                   <nav class="collapse navbar-collapse navigation" id="navbar-collapse" role="navigation">
                         <ul class="nav navbar-nav navbar-right ">
                             <li class="active"> <a href="#home" >Home</a></li>
@@ -83,84 +72,30 @@
   </header>
 <!-- product Start -->
 <section class="product">
- <div class="container">
-  <div class="row">
-    <div class="col-md-12">
-     <div class="feature_header text-center">
-       <h3 class="feature_title">Our <b>product Members</b></h3>
-       <h4 class="feature_sub">Lorem ipsum dolor sit amet, consectetur adipisicing elit. </h4>
-       <div class="divider"></div>
-     </div>
-    </div>  <!-- Col-md-12 End -->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="feature_header text-center">
+                    <h3 class="feature_title">Our <b>product Members</b></h3>
+                    <h4 class="feature_sub">Lorem ipsum dolor sit amet, consectetur adipisicing elit. </h4>
+                    <div class="divider"></div>
+                </div>
+            </div>  <!-- Col-md-12 End -->
 
-        <figure class="item">                
-    <h4>Cool Cat</h4>
-    <div class="image">
-      <img class="slide" src="images/1.jpg" />
-      <img class="slide" src="images/2.jpg" style="display:none;" />
-      <img class="slide" src="images/3.jpg" style="display:none;" />
-      <img class="slide" src="images/4.jpg" style="display:none;" />
-    </div>
-    <button class="prev">&#10094;&#10094;</button>
-    <button class="next">&#10095;&#10095;</button>
-    <figcaption>
-      <p>Due to their small stature, nobody seems to take cats seriously when it comes to the task of home security. People seem to think dogs are more suited for this task because of their size, but most dogs are far too nice to do what's necessary when the time comes. After taking a look at these photos of funny "Beware of Cat" signs, it will become pretty obvious that your cat is also a very effective guardian of your galaxy. Your galaxy in this case is your house or apartment.</p>    
-      <div class="price">
-        <s>$24.00</s><div class="real" data-price="19.00">$19.00</div>
-      </div>
-    </figcaption>
-    <a class="add-to-cart" href="#">Add to Cart</a>
-  </figure>
+            <div class="product-items">
 
-    
-            
-  </div>
- </div> <!-- Conatiner product end -->
+            </div>
+        </div>
+    </div> <!-- Conatiner product end -->
 </section>  <!-- Section product End -->
 
 <!-- Our product End -->
 <div class="clearfix"></div>
 
 
-<div class="container">
-  <div class="row">
-    <div class="col-md-12">
-
-    <div class='slider-container'>
-    <div class='slider'>
-      <ul>
-        <li>
-          <img src="images/13.jpg" />
-        </li>
-        <li>
-          <img src="images/14.jpg" />
-        </li>
-        <li>
-          <img src="images/15.jpg" />
-        </li>
-        <li>
-          <img src="images/17.jpg" />
-        </li>
-        <li>
-          <img src="images/18.jpg" />
-        </li>
-        <li>
-          <img src="images/16.jpg" />
-        </li>
-      </ul>
-      <div class='slider-nav'>
-        <div class='prevs'></div>
-        <div class='nexts'></div>
-      </div>
-    </div>
-  </div>
 
 
-</div>
-</div>
-</div>
-<hr>
-<div class="clearfix"></div>
+
   <!-- Footer Area Start -->
 
 <footer id="footer">
@@ -258,27 +193,12 @@
 
     <div id="cart">
         <h2>Cart</h2>
+        
         <ul class="cart-items">
-            <li>
-                <span class="qty">1x</span> Product Name
-                <div class="price">$9.99</div>
-                <a href="#0" class="item-remove img-replace"></a>
-            </li>
 
-            <li>
-                <span class="qty">2x</span> Product Name
-                <div class="price">$19.98</div>
-                <a href="#" class="item-remove img-replace"></a>
-            </li>
-
-            <li>
-                <span class="qty">1x</span> Product Name
-                <div class="price">$9.99</div>
-                <a href="#" class="item-remove img-replace"></a>
-            </li>
         </ul> <!-- cd-cart-items -->
 
-        <div class="cart-total">
+        <div class="cart-total" id="cart_total">
             <p>Total <span>$39.96</span></p>
         </div> <!-- cd-cart-total -->
 
@@ -286,6 +206,7 @@
 
         <p class="go-to-cart"><a href="#">Go to cart page</a></p>
     </div> <!-- cd-cart -->
+
     <div class="mega-menu">
         <div class="mega-menu-top">
           <div class="mega-search">
@@ -333,73 +254,106 @@
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="./js/ie10-viewport-bug-workaround.js"></script>
 
-    <script type="text/javascript">
+
+    <script id="productTemplate" type="text/template">
+        <div class="item text-center">
+          <div class="single-member">
+            <div class="overlay-hover">
+              <img src="http://lorempixel.com/300/200/cats/" alt="" class="img-responsive productImg">
+              <div class="overlay-effect">
+
+                <div class="icons">
+                  <a href="#"><i class="fa fa-star"></i></a>
+                  <a href="#"> <i class="fa fa-share"></i></a>
+                  <a href="#"> <i class="fa fa-search"></i></a>
+                </div>
+                
+                <a class="add-to-cart">Add to Cart</a>
+                <a class="show-detail">Show Detail</a>
+                <p class="productDescription">
+                </p>
+                
+              </div>
+            </div>
+            <h3 class="productPrice" productPrice="">Price: </h3>
+            <h5 class="productName" productName=""></h5>
+          </div>
+        </div>  <!-- item wrapper end -->
+    </script>
+
+    <script id="cartItem" type="text/template">
+        
+        <li>
+        <span class="productInCart"></span>
+           <span class="qty item-quantities">
+            </span>  (<span class="item-price">
+            </span>)
+
+            <div class="item-prices">
+            </div> 
+            <a class="item-remove img-replace" href="#0"></a>
+        
+        </li>
+
+    </script>
+
+<script type="text/javascript">
+
+const data = [
+{
+    id: 0,
+    name: "Cool Cat",
+    price: 177,
+    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus dignissimos, maxime ea excepturi veritatis itaque."
+},
+
+{
+    id: 1,
+    name: "Black Cat",
+    price: 666,
+    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus dignissimos, maxime ea excepturi veritatis itaque."
+},
+
+{
+    id: 2,
+    name: "Red Cat",
+    price: 555,
+    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus dignissimos, maxime ea excepturi veritatis itaque."
+},
+{
+    id: 3,
+    name: "Blue Cat",
+    price: 444,
+    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus dignissimos, maxime ea excepturi veritatis itaque."
+},
+{
+    id: 4,
+    name: "Green Cat",
+    price: 333,
+    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus dignissimos, maxime ea excepturi veritatis itaque."
+},
+{
+    id: 5,
+    name: "Grey Cat",
+    price: 222,
+    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus dignissimos, maxime ea excepturi veritatis itaque."
+},
+{
+    id: 6,
+    name: "Orange Cat",
+    price: 777,
+    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus dignissimos, maxime ea excepturi veritatis itaque."
+},
+{
+    id: 7,
+    name: "Pretty Cat",
+    price: 888,
+    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus dignissimos, maxime ea excepturi veritatis itaque."
+},
+];
 
 
-    function resetPos() {
-      $('.slider ul li').removeClass('transition');
-      $('.slider ul li').removeClass('left right');
-    }
-
-    //clicks
-    $('.prevs').on('click', function(){
-      $('.slider ul li').addClass('transition right');
-      
-      setTimeout(function(){
-        prev();
-        resetPos();
-      }, 500);
-    });
-
-    $('.nexts').on('click', function(){
-      $('.slider ul li').addClass('transition left');
-      
-      setTimeout(function(){
-        next();
-        resetPos();
-      }, 500);
-    });
-
-    function init() {
-      $('.slider ul li').each(function(){
-        var curPos = $(this).index();
-        $(this).css('order', curPos+1);
-      });
-    }
-
-    function prev() {
-      var slider = $('.slider');
-      var sliderLength = slider.find('ul li').length;
-      $('.slider ul li').each(function(){
-        var curPos = parseInt($(this).css('order'));
-        var sliderLength = slider.find('ul li').length;
-        if (curPos < sliderLength) {
-          $(this).css('order', curPos+1);  
-        }
-        else {
-          curPos = 1;
-          $(this).css('order', curPos);  
-        }
-      });
-    }
-
-    function next() {
-      var slider = $('.slider');
-      var sliderLength = slider.find('ul li').length;
-      $('.slider ul li').each(function(){
-        var curPos = parseInt($(this).css('order'));
-        var sliderLength = slider.find('ul li').length;
-        if (curPos > 0) {
-          $(this).css('order', curPos-1);  
-        }
-        else {
-          curPos = sliderLength-1;
-          $(this).css('order', curPos);  
-        }
-      });
-    }
-
-    $(function() {
+   $(function() {
 
         let cart_trigger = $('#cart-trigger'),
             cart = $('#cart'),
@@ -408,8 +362,6 @@
         let close = $('.close');
         let hamburger = $('#hamburger');
         let mega = $('.mega-menu');
-
-        init();
 
         hamburger.click(function() {
             mega.addClass('active');
@@ -424,47 +376,102 @@
         });
 
 
-        let slideIndex = 1;
+function makeItem(product){
 
-        const prev = $(".prev");
-        const next = $(".next");
+    $template.find('.single-member').attr('productId', product["id"]);
 
-        function showSlide(n) {
-          let i;
-          let x = $(".slide");
-          if (n > x.length) {slideIndex = 1}    
-          if (n < 1) {slideIndex = x.length}
-          for (i = 0; i < x.length; i++) {
-             x[i].style.display = "none";  
-          }
+    $template.find('.productName').text(product.name).attr('productName', product["name"]);
 
-          x[slideIndex-1].style.display = "block";  
-        }
+    $template.find('img').attr('src', "http://lorempixel.com/300/200/cats/" + (product.id + 1));
 
-        showSlide(slideIndex);
+    $template.find('.productPrice').text('$' + product["price"]).attr('productPrice', product["price"]);
 
-        function nextPrev(n) {
-          showSlide(slideIndex += n);
-        }
+    $template.find('.productDescription').text(product["description"]);
+    }
 
-        next.click(function () {
-            nextPrev(1);
-        });
+   var $template = $($('#productTemplate').html());
 
-        prev.click(function () {
-            nextPrev(-1);
-        });
-  
+    
+   for (var i=0; i<Object.keys(data).length; i++){
+       var $template = $($('#productTemplate').html());
+       makeItem(data[i]);
+       $(".product-items").append($template);
+   }
+
+   $('body').on('click', '.add-to-cart', function() {
+
+    var $templateCart = $($('#cartItem').html());
+
+    var items = $(".cart-items").children();
+    
+    var $matched = null,  quantity = 0, $p=0;
+
+    var productId = $(this).parent().parent().parent().attr("productId");
+
+    $matched = items.filter(function (index) {
+         var $this = $(this);
+         console.log('$this= ', $(this).attr("id"));
+        return $this.attr("id") === "product_"+productId;
     });
-  
-   
-    function toggle_panel(panel, background_layer) {
-            if (panel.hasClass('speed-in')) {
-                panel.removeClass('speed-in');
-                background_layer.removeClass('is-visible');
-            } else {
-                panel.addClass('speed-in');
-                background_layer.addClass('is-visible');
+    
+    if ($matched.length) {
+        quantity = +$matched.find('.qty').text() + 1;
+        $p = $matched.find('.item-price').text();
+        $matched.find('.qty').text(quantity);
+        $matched.find('.item-prices').text(quantity*$p);
+
+    } else {
+
+        $templateCart.attr('id', 'product_' + productId);
+        
+        $templateCart.find('.item-prices').attr('id', "price_"+productId);
+
+        $templateCart.find(".item-quantities").attr('id', "qty_"+productId);
+        
+        $templateCart.find(".item-quantities").text(1);
+        
+        $templateCart.find(".item-quantities").after(' '+$(this).parents(".single-member").children(".productName").attr("productName")); 
+        
+        $templateCart.find('.item-price').text($(this).parents(".single-member").children(".productPrice").attr("productPrice"));
+
+        $templateCart.find('.item-prices').text($templateCart.find('.item-price').text());
+
+        $(".cart-items").append($templateCart);
+
+        }
+        updateTotal();
+    });
+
+   $('body').on('click', '.cart-items .item-remove', function () {
+        var $this = $(this),
+        $item = $this.parents('li');
+        $item.remove();
+        updateTotal();
+    });
+
+   function updateTotal() {
+    var quantities = 0,
+    total = 0,
+    
+    $cartTotal = $('#cart_total span'),
+    items = $('.cart-items').children();
+
+    items.each(function (index, item) {
+        var $item = $(item);
+        total += parseFloat($item.find('.item-prices').text());
+    });
+
+    $cartTotal.text('$' + parseFloat(Math.round(total * 100) / 100).toFixed(2));
+    }
+ });
+    
+ function toggle_panel(panel, background_layer) {
+     if (panel.hasClass('speed-in')) {
+         panel.removeClass('speed-in');
+         background_layer.removeClass('is-visible');
+     } else {
+            panel.addClass('speed-in');
+            background_layer.addClass('is-visible');
             }
      }
 
