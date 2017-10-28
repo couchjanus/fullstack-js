@@ -55,7 +55,7 @@
                  </div><!--Navbar header End-->
                   <nav class="collapse navbar-collapse navigation" id="navbar-collapse" role="navigation">
                         <ul class="nav navbar-nav navbar-right ">
-                            <li class="active"> <a href="#home" >Home</a></li>
+                            <li class="active"> <a href="#" id="home" >Home</a></li>
                             <li><a href="#service"  >Services</a> </li>
                             <li><a href="#" id="hamburger">Catalog</a> </li>
                             <li><a href="#about" >About Us </a> </li>
@@ -70,6 +70,7 @@
                      </nav>
     </div><!-- /.container-fluid -->
   </header>
+
 <!-- product Start -->
 <section class="product">
     <div class="container">
@@ -93,10 +94,7 @@
 <div class="clearfix"></div>
 
 
-
-
-
-  <!-- Footer Area Start -->
+<!-- Footer Area Start -->
 
 <footer id="footer">
     <div class="footer_top">
@@ -245,14 +243,14 @@
       </div>
 
 <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script>window.jQuery || document.write('<script src="./js/jquery.min.js"><\/script>')</script>
-    <script src="./js/popper.min.js"></script>
-    <script src="./js/bootstrap.min.js"></script>
+ ================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="./js/jquery.min.js"><\/script>')</script>
+<script src="./js/popper.min.js"></script>
+<script src="./js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="./js/ie10-viewport-bug-workaround.js"></script>
+<script src="./js/ie10-viewport-bug-workaround.js"></script>
 
 
     <script id="productTemplate" type="text/template">
@@ -275,7 +273,7 @@
                 
               </div>
             </div>
-            <h3 class="productPrice" productPrice="">Price: </h3>
+            <h3 class="productPrice" productPrice="">Price: <span class="price">$00.00</span></h3>
             <h5 class="productName" productName=""></h5>
           </div>
         </div>  <!-- item wrapper end -->
@@ -284,6 +282,7 @@
     <script id="cartItem" type="text/template">
         
         <li>
+        
            <span class="qty item-quantities">
             </span>  (<span class="item-price">
             </span>)
@@ -296,6 +295,30 @@
 
     </script>
 
+<script id="productDetail" type="text/template">
+
+<figure class="single-member item">                
+    <h4 class="productName"></h4>
+    <div class="image">
+      <img class="slide" src="images/1.jpg" />
+      <img class="slide" src="images/2.jpg" style="display:none;" />
+      <img class="slide" src="images/3.jpg" style="display:none;" />
+      <img class="slide" src="images/4.jpg" style="display:none;" />
+    </div>
+    <button class="prev">&#10094;&#10094;</button>
+    <button class="next">&#10095;&#10095;</button>
+    <figcaption class="productPrice" productPrice="">
+      <p class="productDescription"></p>    
+      <span class="price">
+        $00.00
+      </span>
+    </figcaption>
+    <a class="add-to-cart" href="#">Add to Cart</a>
+  </figure>
+
+</script>
+
+
 <script type="text/javascript" src="js/data.js"></script>
 
 <script type="text/javascript">
@@ -304,10 +327,10 @@
 var cart = [];
 
 
-   $(function() {
-    
+$(function() {
 
-function makeItem(product){
+  function initCatalog(){
+    function makeItem(product){
 
     $template.find('.single-member').attr('productId', product["id"]);
 
@@ -315,25 +338,30 @@ function makeItem(product){
 
     $template.find('img').attr('src', "http://lorempixel.com/300/200/cats/" + (product.id + 1));
 
-    $template.find('.productPrice').text('$' + product["price"]).attr('productPrice', product["price"]);
+    $template.find('.productPrice').attr('productPrice', product["price"]);
+
+    $template.find('.price').text('$' + product["price"]);
 
     $template.find('.productDescription').text(product["description"]);
     }
 
-   var $template = $($('#productTemplate').html());
+   $(".product-items").empty();
 
-    
    for (var i=0; i<Object.keys(data).length; i++){
        var $template = $($('#productTemplate').html());
        makeItem(data[i]);
        $(".product-items").append($template);
    }
+  }  
 
+  initCatalog();
 
-      if (localStorage.cart)
+  
+
+     if (localStorage.cart)
         {
           cart = JSON.parse(localStorage.cart);
-        }
+       }
 
    let cart_trigger = $('#cart-trigger'),
         cartid = $('#cart'),
@@ -342,6 +370,11 @@ function makeItem(product){
         let close = $('.close');
         let hamburger = $('#hamburger');
         let mega = $('.mega-menu');
+
+
+        $('#home').click(function() {
+            initCatalog();
+        });
     
 
         hamburger.click(function() {
@@ -397,10 +430,64 @@ function showCart() {
        }
 
 
-   $('body').on('click', '.add-to-cart', function() {
-    var id = $(this).parent().parent().parent().attr("productId");
+  $('body').on('click', '.show-detail', function() {
+
+    var $template = $($('#productDetail').html());
+
+    $template.find('.productPrice').attr('productPrice', $(this).parents(".single-member").children(".productPrice").attr("productPrice"));
+
+    $template.find('.price').text('$' + $(this).parents(".single-member").children(".productPrice").attr("productPrice"));
+
+    $template.find('.productDescription').text($(this).parents(".single-member").find(".productDescription").text());
+
+
+    $template.find('.productName').attr('productName', $(this).parents(".single-member").children(".productName").attr("productName")).text($(this).parents(".single-member").children(".productName").attr("productName"));
+
+    $template.find('.productId').attr('productId', $(this).parents(".single-member").attr("productId"));
+
+    $(".product-items").empty();
+    
+    $(".product-items").append($template);
+
+
+  let slideIndex = 1;
+
+        const prev = $(".prev");
+        const next = $(".next");
+
+        function showSlide(n) {
+          let i;
+          let x = $(".slide");
+          if (n > x.length) {slideIndex = 1}    
+          if (n < 1) {slideIndex = x.length}
+          for (i = 0; i < x.length; i++) {
+             x[i].style.display = "none";  
+          }
+
+          x[slideIndex-1].style.display = "block";  
+        }
+
+        showSlide(slideIndex);
+
+        function nextPrev(n) {
+          showSlide(slideIndex += n);
+        }
+
+        next.click(function () {
+            nextPrev(1);
+        });
+
+        prev.click(function () {
+            nextPrev(-1);
+        });
+  
+  });
+
+  
+  $('body').on('click', '.add-to-cart', function() {
+    var id = $(this).parents('.single-member').attr("productId");
     var price = $(this).parents(".single-member").children(".productPrice").attr("productPrice");
-    var name = $(this).parents(".single-member").children(".productName").attr("productName");
+    var name = $(this).parents(".single-member").children(".productName").text();
       
     var qty = 1;
 

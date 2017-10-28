@@ -194,7 +194,7 @@
     <div id="cart">
         <h2>Cart</h2>
         
-        <ul class="cart-items">
+        <ul class="cart-items" id="cartBody">
 
         </ul> <!-- cd-cart-items -->
 
@@ -297,84 +297,16 @@
 
     </script>
 
+<script type="text/javascript" src="js/data.js"></script>
+
 <script type="text/javascript">
 
-const data = [
-{
-    id: 0,
-    name: "Cool Cat",
-    price: 177,
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus dignissimos, maxime ea excepturi veritatis itaque."
-},
 
-{
-    id: 1,
-    name: "Black Cat",
-    price: 666,
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus dignissimos, maxime ea excepturi veritatis itaque."
-},
-
-{
-    id: 2,
-    name: "Red Cat",
-    price: 555,
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus dignissimos, maxime ea excepturi veritatis itaque."
-},
-{
-    id: 3,
-    name: "Blue Cat",
-    price: 444,
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus dignissimos, maxime ea excepturi veritatis itaque."
-},
-{
-    id: 4,
-    name: "Green Cat",
-    price: 333,
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus dignissimos, maxime ea excepturi veritatis itaque."
-},
-{
-    id: 5,
-    name: "Grey Cat",
-    price: 222,
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus dignissimos, maxime ea excepturi veritatis itaque."
-},
-{
-    id: 6,
-    name: "Orange Cat",
-    price: 777,
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus dignissimos, maxime ea excepturi veritatis itaque."
-},
-{
-    id: 7,
-    name: "Pretty Cat",
-    price: 888,
-    description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus dignissimos, maxime ea excepturi veritatis itaque."
-},
-];
+var cart = [];
 
 
    $(function() {
-
-        let cart_trigger = $('#cart-trigger'),
-            cart = $('#cart'),
-            shadow_layer = $('#shadow-layer');
-
-        let close = $('.close');
-        let hamburger = $('#hamburger');
-        let mega = $('.mega-menu');
-
-        hamburger.click(function() {
-            mega.addClass('active');
-        });
-
-        close.click(function() {
-            mega.removeClass('active');
-        });
-
-        cart_trigger.on('click', function () {
-            toggle_panel(cart, shadow_layer);
-        });
-
+    
 
 function makeItem(product){
 
@@ -398,48 +330,104 @@ function makeItem(product){
        $(".product-items").append($template);
    }
 
-   $('body').on('click', '.add-to-cart', function() {
 
-    var $templateCart = $($('#cartItem').html());
-
-    var items = $(".cart-items").children();
-    
-    var $matched = null,  quantity = 0, $p=0;
-
-    var productId = $(this).parent().parent().parent().attr("productId");
-
-    $matched = items.filter(function (index) {
-         var $this = $(this);
-         console.log('$this= ', $(this).attr("id"));
-        return $this.attr("id") === "product_"+productId;
-    });
-    
-    if ($matched.length) {
-        quantity = +$matched.find('.qty').text() + 1;
-        $p = $matched.find('.item-price').text();
-        $matched.find('.qty').text(quantity);
-        $matched.find('.item-prices').text(quantity*$p);
-
-    } else {
-
-        $templateCart.attr('id', 'product_' + productId);
-        
-        $templateCart.find('.item-prices').attr('id', "price_"+productId);
-
-        $templateCart.find(".item-quantities").attr('id', "qty_"+productId);
-        
-        $templateCart.find(".item-quantities").text(1);
-        
-        $templateCart.find(".item-quantities").after(' '+$(this).parents(".single-member").children(".productName").attr("productName")); 
-        
-        $templateCart.find('.item-price').text($(this).parents(".single-member").children(".productPrice").attr("productPrice"));
-
-        $templateCart.find('.item-prices').text($templateCart.find('.item-price').text());
-
-        $(".cart-items").append($templateCart);
-
+      if (localStorage.cart)
+        {
+          cart = JSON.parse(localStorage.cart);
         }
-        updateTotal();
+
+   let cart_trigger = $('#cart-trigger'),
+        cartid = $('#cart'),
+        shadow_layer = $('#shadow-layer');
+
+        let close = $('.close');
+        let hamburger = $('#hamburger');
+        let mega = $('.mega-menu');
+    
+
+        hamburger.click(function() {
+            mega.addClass('active');
+        });
+
+        close.click(function() {
+            mega.removeClass('active');
+        });
+
+        cart_trigger.on('click', function () {
+            toggle_panel(cartid, shadow_layer);
+            showCart();
+        });
+
+
+
+function showCart() {
+ 
+  if (cart.length == 0) {
+       return;
+  }
+
+  $("#cartBody").empty();
+
+  for (var i in cart) {
+    
+    var $templateCart = $($('#cartItem').html());
+  
+    var item = cart[i];
+  
+    $templateCart.attr('product_id', item.Id);
+  
+    $templateCart.find(".item-quantities").text(item.Qty);
+  
+    $templateCart.find(".item-quantities").after(' '+ item.Product); 
+  
+    $templateCart.find('.item-price').text(item.Price);
+  
+    $templateCart.find('.item-prices').text(item.Qty * item.Price);
+
+    $(".cart-items").append($templateCart);
+     }
+   }
+
+
+    function saveCart() {
+       if ( window.localStorage)
+        {
+           localStorage.cart = JSON.stringify(cart);
+         }
+       }
+
+
+   $('body').on('click', '.add-to-cart', function() {
+    var id = $(this).parent().parent().parent().attr("productId");
+    var price = $(this).parents(".single-member").children(".productPrice").attr("productPrice");
+    var name = $(this).parents(".single-member").children(".productName").attr("productName");
+      
+    var qty = 1;
+
+    for (var i in cart) {
+      if(cart[i].Product == name)
+        {
+         cart[i].Qty += qty;
+         saveCart();
+         return;
+        }
+    }
+   
+      var item = { Id: id, Product: name,  Price: price, Qty: qty }; 
+      cart.push(item);
+      saveCart();
+
+    });
+
+  $('body').on('click', '.cart-items .item-remove',   
+
+    function () {
+      var $this = $(this);
+      var index = $this.parent().attr("product_id");
+      cart.splice(index,1); 
+      var $item = $this.parents('li');
+      $item.remove();
+      saveCart();
     });
 
    function updateTotal() {

@@ -55,7 +55,7 @@
                  </div><!--Navbar header End-->
                   <nav class="collapse navbar-collapse navigation" id="navbar-collapse" role="navigation">
                         <ul class="nav navbar-nav navbar-right ">
-                            <li class="active"> <a href="#home" >Home</a></li>
+                            <li class="active"> <a href="#" id="home" >Home</a></li>
                             <li><a href="#service"  >Services</a> </li>
                             <li><a href="#" id="hamburger">Catalog</a> </li>
                             <li><a href="#about" >About Us </a> </li>
@@ -70,6 +70,7 @@
                      </nav>
     </div><!-- /.container-fluid -->
   </header>
+
 <!-- product Start -->
 <section class="product">
     <div class="container">
@@ -93,10 +94,7 @@
 <div class="clearfix"></div>
 
 
-
-
-
-  <!-- Footer Area Start -->
+<!-- Footer Area Start -->
 
 <footer id="footer">
     <div class="footer_top">
@@ -245,14 +243,14 @@
       </div>
 
 <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script>window.jQuery || document.write('<script src="./js/jquery.min.js"><\/script>')</script>
-    <script src="./js/popper.min.js"></script>
-    <script src="./js/bootstrap.min.js"></script>
+ ================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="./js/jquery.min.js"><\/script>')</script>
+<script src="./js/popper.min.js"></script>
+<script src="./js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="./js/ie10-viewport-bug-workaround.js"></script>
+<script src="./js/ie10-viewport-bug-workaround.js"></script>
 
 
     <script id="productTemplate" type="text/template">
@@ -284,6 +282,7 @@
     <script id="cartItem" type="text/template">
         
         <li>
+        
            <span class="qty item-quantities">
             </span>  (<span class="item-price">
             </span>)
@@ -303,11 +302,10 @@
 
 var cart = [];
 
-
    $(function() {
-    
 
-function makeItem(product){
+  function initCatalog(){
+    function makeItem(product){
 
     $template.find('.single-member').attr('productId', product["id"]);
 
@@ -320,20 +318,19 @@ function makeItem(product){
     $template.find('.productDescription').text(product["description"]);
     }
 
-   var $template = $($('#productTemplate').html());
-
-    
    for (var i=0; i<Object.keys(data).length; i++){
        var $template = $($('#productTemplate').html());
        makeItem(data[i]);
        $(".product-items").append($template);
    }
+  }  
 
+  initCatalog();
 
-      if (localStorage.cart)
+     if (localStorage.cart)
         {
           cart = JSON.parse(localStorage.cart);
-        }
+       }
 
    let cart_trigger = $('#cart-trigger'),
         cartid = $('#cart'),
@@ -342,6 +339,11 @@ function makeItem(product){
         let close = $('.close');
         let hamburger = $('#hamburger');
         let mega = $('.mega-menu');
+
+
+        $('#home').click(function() {
+            initCatalog();
+        });
     
 
         hamburger.click(function() {
@@ -397,7 +399,14 @@ function showCart() {
        }
 
 
-   $('body').on('click', '.add-to-cart', function() {
+  $('body').on('click', '.show-detail', function() {
+
+    $(".product-items").empty();
+
+  });
+
+  
+  $('body').on('click', '.add-to-cart', function() {
     var id = $(this).parent().parent().parent().attr("productId");
     var price = $(this).parents(".single-member").children(".productPrice").attr("productPrice");
     var name = $(this).parents(".single-member").children(".productName").attr("productName");
