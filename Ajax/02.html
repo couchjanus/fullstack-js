@@ -1,0 +1,59 @@
+<script>
+
+
+    function makeRequest(url) {
+        var httpRequest = false;
+
+        if (window.XMLHttpRequest) { // Mozilla, Safari, ...
+            httpRequest = new XMLHttpRequest();
+            if (httpRequest.overrideMimeType) {
+                httpRequest.overrideMimeType('text/xml');
+            }
+        } else if (window.ActiveXObject) { // IE
+            try {
+                httpRequest = new ActiveXObject("Msxml2.XMLHTTP");
+            } catch (e) {
+                try {
+                    httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+                } catch (e) {}
+            }
+        }
+
+        if (!httpRequest) {
+            console.log('Не вышло :( Невозможно создать экземпляр класса XMLHTTP ');
+            return false;
+        }
+    // Посылается запрос, после чего (onreadystatechange) выполнение передается alertContents();
+
+        httpRequest.onreadystatechange = function() { alertContents(httpRequest); };
+        httpRequest.open('GET', url, true);
+        httpRequest.send(null);
+
+    }
+
+// alertContents() проверяет получен ли ответ и все ли с ним в порядке, после чего содержимое файла test.html выводится в console.
+
+    function alertContents(httpRequest) {
+
+        if (httpRequest.readyState == 4) {
+            if (httpRequest.status == 200) {
+              var xmldoc = httpRequest.responseXML;
+              var root_node = xmldoc.getElementsByTagName('root').item(0);
+              console.log(root_node.firstChild.data);
+// Этот код берет объект XMLDocument, возвращаемый responseXML и использует методы DOM для доступа к данным, содержащимся в документе XML.
+            } else {
+                console.log('С запросом возникла проблема.');
+            }
+        }
+
+    }
+/*
+Пользователь нажимает на ссылку "Сделать запрос" в броузере;
+Это вызывает функцию makeRequest() с параметром test.html;
+*/
+</script>
+<span
+    style="cursor: pointer; text-decoration: underline"
+    onclick="makeRequest('test.xml')">
+        Сделать запрос
+</span>

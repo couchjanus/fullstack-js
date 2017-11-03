@@ -55,7 +55,7 @@
                  </div><!--Navbar header End-->
                   <nav class="collapse navbar-collapse navigation" id="navbar-collapse" role="navigation">
                         <ul class="nav navbar-nav navbar-right ">
-                            <li class="active"> <a href="#home" >Home</a></li>
+                            <li class="active"> <a href="#" id="home" >Home</a></li>
                             <li><a href="#service"  >Services</a> </li>
                             <li><a href="#" id="hamburger">Catalog</a> </li>
                             <li><a href="#about" >About Us </a> </li>
@@ -70,6 +70,7 @@
                      </nav>
     </div><!-- /.container-fluid -->
   </header>
+
 <!-- product Start -->
 <section class="product">
     <div class="container">
@@ -93,10 +94,7 @@
 <div class="clearfix"></div>
 
 
-
-
-
-  <!-- Footer Area Start -->
+<!-- Footer Area Start -->
 
 <footer id="footer">
     <div class="footer_top">
@@ -199,7 +197,7 @@
         </ul> <!-- cd-cart-items -->
 
         <div class="cart-total" id="cart_total">
-            <p>Total <span>$39.96</span></p>
+            <p>Total <span>$00.00</span></p>
         </div> <!-- cd-cart-total -->
 
         <a href="#" class="checkout-btn">Checkout</a>
@@ -245,14 +243,14 @@
       </div>
 
 <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script>window.jQuery || document.write('<script src="./js/jquery.min.js"><\/script>')</script>
-    <script src="./js/popper.min.js"></script>
-    <script src="./js/bootstrap.min.js"></script>
+ ================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="js/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="./js/jquery.min.js"><\/script>')</script>
+<script src="./js/popper.min.js"></script>
+<script src="./js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="./js/ie10-viewport-bug-workaround.js"></script>
+<script src="./js/ie10-viewport-bug-workaround.js"></script>
 
 
     <script id="productTemplate" type="text/template">
@@ -275,7 +273,7 @@
                 
               </div>
             </div>
-            <h3 class="productPrice" productPrice="">Price: </h3>
+            <h3 class="productPrice" productPrice="">Price: <span class="price">$00.00</span></h3>
             <h5 class="productName" productName=""></h5>
           </div>
         </div>  <!-- item wrapper end -->
@@ -284,7 +282,7 @@
     <script id="cartItem" type="text/template">
         
         <li>
-        <span class="productInCart"></span>
+        
            <span class="qty item-quantities">
             </span>  (<span class="item-price">
             </span>)
@@ -297,58 +295,94 @@
 
     </script>
 
-<script type="text/javascript" src="js/data.js"></script>
+<script id="productDetail" type="text/template">
+
+<figure class="single-member item">                
+    <h4 class="productName"></h4>
+    <div class="image">
+      <img class="slide" src="images/1.jpg" />
+      <img class="slide" src="images/2.jpg" style="display:none;" />
+      <img class="slide" src="images/3.jpg" style="display:none;" />
+      <img class="slide" src="images/4.jpg" style="display:none;" />
+    </div>
+    <button class="prev">&#10094;&#10094;</button>
+    <button class="next">&#10095;&#10095;</button>
+    <figcaption class="productPrice" productPrice="">
+      <p class="productDescription"></p>    
+      <span class="price">
+        $00.00
+      </span>
+    </figcaption>
+    <a class="add-to-cart" href="#">Add to Cart</a>
+  </figure>
+
+</script>
+
+
+{# <script type="text/javascript" src="js/data.js"></script> #}
 
 <script type="text/javascript">
 
 
 var cart = [];
 
-var price = 999;
-var name = "My Cat";
-var qty = 2;
-var item = { Product: name,  Price: price, Qty: qty }; 
 
-cart.push(item);
+$(function() {
 
-if ( window.localStorage)
-   {
-     localStorage.cart = JSON.stringify(cart);
- }
+var root = 'https://api.myjson.com/bins/dfaa3';
 
-function showCart() {
-  
-  if (cart.length == 0) {
-       return;
-  }
+fetch(root).then(function (resp) {
+  return resp.json();
+}).then(function (data) {
 
-  $("#cartBody").empty();
+  function initCatalog(){
+    function makeItem(product){
 
-  var $templateCart = $($('#cartItem').html());
+    $template.find('.single-member').attr('productId', product["id"]);
 
-  for (var i in cart) {
-    var item = cart[i];
-    // $templateCart.attr('id', 'product_' + productId);
-    $templateCart.find(".item-quantities").text(item.Qty);
-    $templateCart.find(".item-quantities").after(' '+ item.Product); 
-    $templateCart.find('.item-price').text(item.Price);
-    $templateCart.find('.item-prices').text(item.Qty * item.Price);
+    $template.find('.productName').text(product.name).attr('productName', product["name"]);
 
-    $(".cart-items").append($templateCart);
-     }
+    $template.find('img').attr('src', "http://lorempixel.com/300/200/cats/" + (product.id + 1));
+
+    $template.find('.productPrice').attr('productPrice', product["price"]);
+
+    $template.find('.price').text('$' + product["price"]);
+
+    $template.find('.productDescription').text(product["description"]);
+    }
+
+   $(".product-items").empty();
+
+   for (var i=0; i<Object.keys(data).length; i++){
+       var $template = $($('#productTemplate').html());
+       makeItem(data[i]);
+       $(".product-items").append($template);
    }
+  }  
 
-   $(function() {
+  initCatalog();
+
+});  
+
+     if (localStorage.cart)
+        {
+          cart = JSON.parse(localStorage.cart);
+       }
 
    let cart_trigger = $('#cart-trigger'),
-        cart = $('#cart'),
+        cartid = $('#cart'),
         shadow_layer = $('#shadow-layer');
 
         let close = $('.close');
         let hamburger = $('#hamburger');
         let mega = $('.mega-menu');
 
-        
+
+        $('#home').click(function() {
+            initCatalog();
+        });
+    
+
         hamburger.click(function() {
             mega.addClass('active');
         });
@@ -358,84 +392,137 @@ function showCart() {
         });
 
         cart_trigger.on('click', function () {
-            toggle_panel(cart, shadow_layer);
+            toggle_panel(cartid, shadow_layer);
             showCart();
         });
 
-function makeItem(product){
 
-    $template.find('.single-member').attr('productId', product["id"]);
 
-    $template.find('.productName').text(product.name).attr('productName', product["name"]);
+function showCart() {
+ 
+  if (cart.length == 0) {
+       return;
+  }
 
-    $template.find('img').attr('src', "http://lorempixel.com/300/200/cats/" + (product.id + 1));
+  $("#cartBody").empty();
 
-    $template.find('.productPrice').text('$' + product["price"]).attr('productPrice', product["price"]);
-
-    $template.find('.productDescription').text(product["description"]);
-    }
-
-   var $template = $($('#productTemplate').html());
-
+  for (var i in cart) {
     
-   for (var i=0; i<Object.keys(data).length; i++){
-       var $template = $($('#productTemplate').html());
-       makeItem(data[i]);
-       $(".product-items").append($template);
+    var $templateCart = $($('#cartItem').html());
+  
+    var item = cart[i];
+  
+    $templateCart.attr('product_id', item.Id);
+  
+    $templateCart.find(".item-quantities").text(item.Qty);
+  
+    $templateCart.find(".item-quantities").after(' '+ item.Product); 
+  
+    $templateCart.find('.item-price').text(item.Price);
+  
+    $templateCart.find('.item-prices').text(item.Qty * item.Price);
+
+    $(".cart-items").append($templateCart);
+     }
+     updateTotal();
    }
 
-   
+
+    function saveCart() {
+       if ( window.localStorage)
+        {
+           localStorage.cart = JSON.stringify(cart);
+         }
+       }
 
 
-   $('body').on('click', '.add-to-cart', function() {
+  $('body').on('click', '.show-detail', function() {
 
-    var $templateCart = $($('#cartItem').html());
+    var $template = $($('#productDetail').html());
 
-    var items = $(".cart-items").children();
+    $template.find('.productPrice').attr('productPrice', $(this).parents(".single-member").children(".productPrice").attr("productPrice"));
+
+    $template.find('.price').text('$' + $(this).parents(".single-member").children(".productPrice").attr("productPrice"));
+
+    $template.find('.productDescription').text($(this).parents(".single-member").find(".productDescription").text());
+
+
+    $template.find('.productName').attr('productName', $(this).parents(".single-member").children(".productName").attr("productName")).text($(this).parents(".single-member").children(".productName").attr("productName"));
+
+    $template.find('.productId').attr('productId', $(this).parents(".single-member").attr("productId"));
+
+    $(".product-items").empty();
     
-    var $matched = null,  quantity = 0, $p=0;
+    $(".product-items").append($template);
 
-    var productId = $(this).parent().parent().parent().attr("productId");
 
-    $matched = items.filter(function (index) {
-         var $this = $(this);
-         console.log('$this= ', $(this).attr("id"));
-        return $this.attr("id") === "product_"+productId;
-    });
-    
-    if ($matched.length) {
-        quantity = +$matched.find('.qty').text() + 1;
-        $p = $matched.find('.item-price').text();
-        $matched.find('.qty').text(quantity);
-        $matched.find('.item-prices').text(quantity*$p);
+  let slideIndex = 1;
 
-    } else {
+        const prev = $(".prev");
+        const next = $(".next");
 
-        $templateCart.attr('id', 'product_' + productId);
-        
-        $templateCart.find('.item-prices').attr('id', "price_"+productId);
+        function showSlide(n) {
+          let i;
+          let x = $(".slide");
+          if (n > x.length) {slideIndex = 1}    
+          if (n < 1) {slideIndex = x.length}
+          for (i = 0; i < x.length; i++) {
+             x[i].style.display = "none";  
+          }
 
-        $templateCart.find(".item-quantities").attr('id', "qty_"+productId);
-        
-        $templateCart.find(".item-quantities").text(1);
-        
-        $templateCart.find(".item-quantities").after(' '+$(this).parents(".single-member").children(".productName").attr("productName")); 
-        
-        $templateCart.find('.item-price').text($(this).parents(".single-member").children(".productPrice").attr("productPrice"));
-
-        $templateCart.find('.item-prices').text($templateCart.find('.item-price').text());
-
-        $(".cart-items").append($templateCart);
-
+          x[slideIndex-1].style.display = "block";  
         }
-        updateTotal();
+
+        showSlide(slideIndex);
+
+        function nextPrev(n) {
+          showSlide(slideIndex += n);
+        }
+
+        next.click(function () {
+            nextPrev(1);
+        });
+
+        prev.click(function () {
+            nextPrev(-1);
+        });
+  
+  });
+
+  
+  $('body').on('click', '.add-to-cart', function() {
+    var id = $(this).parents('.single-member').attr("productId");
+    var price = $(this).parents(".single-member").children(".productPrice").attr("productPrice");
+    var name = $(this).parents(".single-member").children(".productName").text();
+      
+    var qty = 1;
+
+    for (var i in cart) {
+      if(cart[i].Product == name)
+        {
+         cart[i].Qty += qty;
+         saveCart();
+         return;
+        }
+    }
+   
+      var item = { Id: id, Product: name,  Price: price, Qty: qty }; 
+      cart.push(item);
+      saveCart();
+
     });
 
-   $('body').on('click', '.cart-items .item-remove', function () {
-        var $this = $(this),
-        $item = $this.parents('li');
-        $item.remove();
-        updateTotal();
+  $('body').on('click', '.cart-items .item-remove',   
+    function () {
+      var $this = $(this);
+      var index = $this.parent().attr("product_id");
+      
+      cart.splice(index,1); 
+
+      var $item = $this.parents('li');
+      $item.remove();
+      saveCart();
+      updateTotal();
     });
 
    function updateTotal() {
